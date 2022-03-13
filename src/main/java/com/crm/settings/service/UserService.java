@@ -11,4 +11,7 @@ public interface UserService {
 
     List<User> owner();
 
+    boolean saveUser(User user);
+
+    boolean delete(String id);
 }

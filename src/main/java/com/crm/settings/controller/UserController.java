@@ -3,9 +3,7 @@ package com.crm.settings.controller;
 import com.crm.settings.domain.User;
 import com.crm.settings.service.UserService;
 import com.crm.utils.MD5Util;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/user")
-    public Map<String,String> signin(HttpServletRequest request,User user) {
+    public Map<String,String> signin(HttpServletRequest request, User user) {
         user.setLoginPwd(MD5Util.getMD5(user.getLoginPwd()));
         user.setAllowIps(request.getRemoteAddr());
         Map<String,String> map = new HashMap<>();
@@ -38,9 +36,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/user/save")
+    public Integer save(User user){
+        return userService.saveUser(user)?1:0;
+    }
+
     @GetMapping("/owner")
     public List<User> owner() {
         return userService.owner();
+    }
+
+    @DeleteMapping("/user/{id}")
+    public boolean delete(@PathVariable String id) {
+        return userService.delete(id);
     }
 
     @GetMapping("/user")

@@ -28,7 +28,7 @@
     </select>
 
     <select id="activityList" resultType="com.crm.workbench.domain.Activity">
-        SELECT a.id id,a.name name,u.name owner,a.startDate startDate,a.endDate endDate FROM t_activity a JOIN t_user u ON a.owner=u.id
+        SELECT a.id,a.name,u.name owner,a.startDate,a.endDate FROM t_activity a JOIN t_user u ON a.owner=u.id
         <where>
             <if test="name!=null and name!=''">
                 a.name LIKE CONCAT('%',#{name},'%')
@@ -60,7 +60,32 @@
 
     <update id="update">
         UPDATE t_activity
-        SET owner=#{owner},name=#{name},startDate=#{startDate},endDate=#{endDate},cost=#{cost},description=#{description},editTime=#{editTime},editBy=#{editBy}
+        <set>
+            <if test="owner!=null">
+                owner=#{owner},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="startDate!=null">
+                startDate=#{startDate},
+            </if>
+            <if test="endDate!=null">
+                endDate=#{endDate},
+            </if>
+            <if test="cost!=null">
+                cost=#{cost},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+            <if test="editTime!=null">
+                editTime=#{editTime},
+            </if>
+            <if test="editBy!=null">
+                editBy=#{editBy}
+            </if>
+        </set>
         WHERE id = #{id}
     </update>
 

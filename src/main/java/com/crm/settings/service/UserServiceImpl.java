@@ -1,16 +1,20 @@
 package com.crm.settings.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crm.exceptions.LoginException;
 import com.crm.settings.dao.UserDao;
 import com.crm.settings.domain.User;
+import com.crm.settings.mapper.UserMapper;
 import com.crm.utils.DateTimeUtil;
+import com.crm.workbench.dao.ActivityDao;
+import com.crm.workbench.domain.Activity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService{
 
     @Resource
     private UserDao userDao;
@@ -27,7 +31,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean saveUser(User user) {
+        return saveOrUpdate(user);
+    }
+
+    @Override
+    public boolean delete(String id) {
+        return removeById(id);
+    }
+
+    @Override
     public List<User> owner() {
-        return userDao.owner();
+        return list();
     }
 }

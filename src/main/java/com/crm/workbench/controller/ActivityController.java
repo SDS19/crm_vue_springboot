@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,13 +24,13 @@ public class ActivityController {
     @Resource
     private ActivityService activityService;
 
-    /* ========================================= activity controller ========================================= */
+    /* ========================================= activity ========================================= */
 
     @GetMapping
-    public Pagination<Activity> activityList(Integer pageNo, Integer pageSize, Activity activity){
+    public HashMap<String,Object> pagination(Integer pageNo, Integer pageSize, Activity activity){
         activity.setPageCount((pageNo-1)*pageSize);
         try {
-            return activityService.pageList(activity);
+            return activityService.pageList(activity);//total+list
         } catch (DaoException e) {
             e.printStackTrace();
             return null;
@@ -37,16 +38,16 @@ public class ActivityController {
     }
 
     @PostMapping
-    public String save(HttpServletRequest request, Activity activity){
+    public boolean save(HttpServletRequest request,@RequestBody Activity activity){
         activity.setId(UUIDUtil.getUUID());
         activity.setCreateTime(DateTimeUtil.getSysTime());
-        activity.setCreateBy(((User)request.getSession(false).getAttribute("user")).getName());
+        //activity.setCreateBy(((User)request.getSession(false).getAttribute("user")).getName());
         try {
             activityService.save(activity);
-            return "1";
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return "0";
+            return false;
         }
     }
 
@@ -70,7 +71,7 @@ public class ActivityController {
     @PutMapping
     public String update(HttpServletRequest request,Activity activity){
         activity.setEditTime(DateTimeUtil.getSysTime());
-        activity.setEditBy(((User)request.getSession(false).getAttribute("user")).getName());
+        //activity.setEditBy(((User)request.getSession(false).getAttribute("user")).getName());
         try {
             activityService.update(activity);
             return "1";
@@ -88,7 +89,7 @@ public class ActivityController {
         return mv;
     }
 
-    /* ========================================== remark controller ========================================== */
+    /* ========================================== remark ========================================== */
 
     @GetMapping("/remark/{activityId}")
     public List<ActivityRemark> remarkList(@PathVariable String activityId){

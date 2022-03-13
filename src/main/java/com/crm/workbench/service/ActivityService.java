@@ -1,7 +1,6 @@
 package com.crm.workbench.service;
 
 import com.crm.exceptions.DaoException;
-import com.crm.vo.Pagination;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.ActivityRemark;
 
@@ -15,7 +14,7 @@ public interface ActivityService {
 
     void save(Activity activity) throws DaoException;
 
-    Pagination<Activity> pageList(Activity activity) throws DaoException;
+    HashMap<String, Object> pageList(Activity activity) throws DaoException;
 
     void delete(String[] ids) throws DaoException;
 

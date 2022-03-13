@@ -2,7 +2,6 @@ package com.crm.workbench.service;
 
 import com.crm.exceptions.DaoException;
 import com.crm.settings.dao.UserDao;
-import com.crm.vo.Pagination;
 import com.crm.workbench.dao.ActivityDao;
 import com.crm.workbench.dao.ActivityRemarkDao;
 import com.crm.workbench.domain.Activity;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ActivityServiceImpl implements ActivityService{
+public class ActivityServiceImpl implements ActivityService {
 
     @Resource
     private ActivityDao activityDao;
@@ -33,11 +32,14 @@ public class ActivityServiceImpl implements ActivityService{
     }
 
     @Override
-    public Pagination<Activity> pageList(Activity activity) throws DaoException {
+    public HashMap<String, Object> pageList(Activity activity) throws DaoException {
         int total = activityDao.total(activity);
         List<Activity> list = activityDao.activityList(activity);
         if (total!=0 && list==null) throw new DaoException("Activities query failed!");
-        return new Pagination<>(total,list);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("total",total);
+        map.put("list",list);
+        return map;
     }
 
     @Transactional
