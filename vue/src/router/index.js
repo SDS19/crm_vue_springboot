@@ -8,7 +8,12 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    redirect: "/home",
+    children: [
+      { path:"home",name: "Home", component: () => import('../views/Home') },
+      { path:"activity",name: "Activity", component: () => import('../views/Activity') }
+    ]
   },
   {
     path: '/about',

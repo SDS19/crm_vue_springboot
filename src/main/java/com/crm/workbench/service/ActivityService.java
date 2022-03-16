@@ -16,7 +16,9 @@ public interface ActivityService {
 
     HashMap<String, Object> pageList(Activity activity) throws DaoException;
 
-    void delete(String[] ids) throws DaoException;
+    void del(String id) throws DaoException;
+
+    void batchDel(String[] ids) throws DaoException;
 
     Map<String,Object> edit(String id);
 
@@ -39,5 +41,6 @@ public interface ActivityService {
     void addRemark(ActivityRemark remark) throws DaoException;
 
     void updateRemark(ActivityRemark remark) throws DaoException;
+
 
 }

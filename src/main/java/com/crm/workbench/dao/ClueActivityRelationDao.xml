@@ -26,6 +26,13 @@
             (#{car.id},#{car.clueId},#{car.activityId})
         </foreach>
     </insert>
+
+    <select id="num" resultType="int">
+        SELECT machineId FROM t_process_machine
+        WHERE processId = (SELECT processId FROM t_product_process
+                           WHERE productId =(SELECT id FROM t_product WHERE structure = "würfel"))
+
+    </select>
   	
 </mapper>
 

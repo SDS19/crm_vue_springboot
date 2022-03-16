@@ -13,7 +13,9 @@ public interface ActivityDao {
 
     List<Activity> activityList(Activity activity);
 
-    int delete(String[] ids);
+    int del(String id);
+
+    int batchDel(String[] ids);
 
     Activity edit(String id);
 
@@ -26,5 +28,6 @@ public interface ActivityDao {
     List<Activity> selectByNameForClue(HashMap<String,String> map);
 
     List<Activity> selectByNameForTran(String name);
+
 
 }

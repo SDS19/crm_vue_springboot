@@ -42,11 +42,15 @@ public class ActivityServiceImpl implements ActivityService {
         return map;
     }
 
+    @Override
+    public void del(String id) throws DaoException {
+        if (activityDao.del(id)!=1) throw new DaoException("Activity delete failed!");
+    }
+
     @Transactional
     @Override
-    public void delete(String[] ids) throws DaoException{
-        activityRemarkDao.delete(ids);
-        if (activityDao.delete(ids)!=ids.length) throw new DaoException("Activity delete failed!");
+    public void batchDel(String[] ids) throws DaoException{
+        if (activityDao.batchDel(ids)!=ids.length) throw new DaoException("Activity delete failed!");
     }
 
     @Override

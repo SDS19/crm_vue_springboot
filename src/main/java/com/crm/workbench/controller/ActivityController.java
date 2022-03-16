@@ -51,15 +51,25 @@ public class ActivityController {
         }
     }
 
-    @DeleteMapping
-    public String delete(HttpServletRequest request) {
-        String[] ids = request.getParameterValues("id");
+    @PostMapping("/batch")
+    public boolean batchDel(@RequestBody String[] ids){
         try {
-            activityService.delete(ids);
-            return "1";
+            activityService.batchDel(ids);
+            return true;
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable String id) {
+        try {
+            activityService.del(id);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return "0";
+            return false;
         }
     }
 
@@ -69,7 +79,7 @@ public class ActivityController {
     }
 
     @PutMapping
-    public String update(HttpServletRequest request,Activity activity){
+    public String update(HttpServletRequest request,@RequestBody Activity activity){
         activity.setEditTime(DateTimeUtil.getSysTime());
         //activity.setEditBy(((User)request.getSession(false).getAttribute("user")).getName());
         try {
@@ -108,7 +118,7 @@ public class ActivityController {
     }
 
     @PostMapping("/remark")
-    public Object addRemark(HttpServletRequest request, ActivityRemark remark){
+    public Object addRemark(HttpServletRequest request,@RequestBody ActivityRemark remark){
         remark.setId(UUIDUtil.getUUID());
         remark.setCreateTime(DateTimeUtil.getSysTime());
         remark.setCreateBy(((User) request.getSession(false).getAttribute("user")).getName());
